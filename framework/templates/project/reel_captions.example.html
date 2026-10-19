@@ -1,0 +1,15 @@
+<!doctype html>
+<!-- TALKING-HEAD REEL CAPTIONS (Instagram 9:16). Render with: overlay_render.py reel_captions.html ov 30 <dur> --size 1080x1920
+     Big word-by-word captions (active word = accent), hook text in the first ~2.6 s. For LinkedIn use M.parseSRT + M.lineCaption with captions.srt. --><html><head><meta charset="utf-8"><style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent;font-family:'Inter Display',Inter,sans-serif}
+#cap{position:absolute;left:90px;right:90px;top:1080px;text-align:center;font-weight:900;font-size:96px;line-height:1.02;letter-spacing:-.03em;color:#fff;
+  -webkit-text-stroke:3px #0E0E0E;paint-order:stroke fill;text-shadow:0 6px 0 rgba(0,0,0,.35)}
+#hook{position:absolute;left:90px;right:90px;top:330px;font-weight:800;font-size:64px;line-height:1.05;letter-spacing:-.03em;color:#0E0E0E}
+#hook span{background:#FFD400;padding:4px 14px;border-radius:12px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+</style></head><body><div id="hook"><span>{{HOOK LINE 1}}</span><br><span>{{HOOK LINE 2}}</span></div><div id="cap"></div>
+<script src="../../framework/scripts/motion.js"></script>
+<script>
+const G = /*REEL_WORDS*/[] /* paste projects/<slug>/tr/reel_words.json here (file:// pages can't fetch local JSON) */;
+window.render=t=>{ if(!G) return; M.captions(document.getElementById('cap'),G,t,{accent:'#FFD400'});
+  const h=document.getElementById('hook'); const p=M.spring(t/.4,.3); h.style.opacity=t<2.6?M.clamp(p*3):M.clamp(1-(t-2.6)/.2); h.style.transform=`translateY(${(1-p)*-40}px)`; };
+</script></body></html>

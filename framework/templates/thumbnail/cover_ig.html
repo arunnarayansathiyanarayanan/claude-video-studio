@@ -1,0 +1,11 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Instagram Reel cover, 1080x1920. Keep title + face inside the blue 3:4 grid crop (y 240–1680). Put your frame as cover.jpg.
+     Render like thumb.html but with viewport 1080x1920. Remove the .guide div before the final render. -->
+<style>
+:root{--accent:#FFD400;--ink:#0E0E0E}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;font-family:'Inter Display','Inter',sans-serif}
+.bg{position:absolute;inset:0;background:url(cover.jpg) center/cover}
+.t{position:absolute;left:80px;right:80px;top:1180px;font-weight:900;font-size:120px;line-height:.95;letter-spacing:-.04em;color:#fff;-webkit-text-stroke:3px var(--ink);paint-order:stroke fill}
+.t em{font-style:normal;color:var(--accent)}
+.guide{position:absolute;left:0;right:0;top:240px;height:1440px;outline:6px solid rgba(0,120,255,.8)}
+</style></head><body><div class="bg"></div><div class="t">{{2–4 WORD}}<br><em>{{HOOK}}</em></div><div class="guide"></div></body></html>

@@ -1,0 +1,7 @@
+numpy
+scipy
+opencv-python-headless
+pillow
+playwright
+matplotlib  # optional: waveform/spectrogram QC
+faster-whisper  # talking-head transcription (model downloads on first run)

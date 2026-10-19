@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Simple, human-looking thumbnail. Put your photo next to this file as hero.jpg, edit the {{…}} text, then render:
+     python3 -c "from playwright.sync_api import sync_playwright as s; p=s().start(); b=p.chromium.launch(); g=b.new_page(viewport={'width':1080,'height':1350}); g.goto('file://'+__import__('os').path.abspath('thumb.html')); g.wait_for_timeout(400); g.screenshot(path='thumbnail.png'); b.close(); p.stop()"
+     Rules: one photo, one 2-line headline, one accent word, lots of whitespace. No glows, gradients, badges, particle graphics or tilted insets. -->
+<style>
+:root{--accent:#E0263E;--ink:#141414;--paper:#F5F3EF;--muted:#8A8580}
+html,body{margin:0;width:1080px;height:1350px;overflow:hidden;background:var(--paper);font-family:'Inter Display','Inter',sans-serif}
+.photo{position:absolute;left:0;top:0;width:1080px;height:860px;background:url(hero.jpg) center 25%/cover}
+.rule{position:absolute;left:72px;top:856px;width:120px;height:8px;background:var(--accent)}
+.panel{position:absolute;left:0;right:0;top:860px;bottom:0;padding:62px 72px 0}
+.kick{font:600 28px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
+h1{margin:0;font-weight:800;font-size:106px;line-height:1.0;letter-spacing:-.035em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--accent)}
+.by{position:absolute;left:72px;bottom:64px;font:600 30px Inter,sans-serif;color:#6F6A64}
+</style></head><body>
+<div class="photo"></div><div class="rule"></div>
+<div class="panel"><div class="kick">{{EVENT}} · My takeaways</div><h1>{{HEADLINE LINE 1}}<br>{{LINE 2 WITH}} <em>{{ACCENT WORD}}</em></h1></div>
+<div class="by">{{NAME}} · {{TITLE}}</div>
+</body></html>

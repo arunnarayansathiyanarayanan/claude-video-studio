@@ -1,0 +1,75 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:'Caveat';src:url('../../framework/fonts/caveat-latin-700-normal.woff2') format('woff2');font-weight:700}
+:root{--ink:#0E0E0E;--paper:#F4F2EE;--accent:#E0263E}
+html,body{margin:0;width:1080px;height:1350px;overflow:hidden;background:var(--paper);font-family:'Inter Display',Inter,sans-serif;color:var(--ink)}
+.abs{position:absolute}
+#tick{position:absolute;inset:0}
+#card{position:absolute;inset:0;overflow:hidden;background:var(--ink)}
+#card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#panel{position:absolute;left:0;right:0;bottom:0;height:470px;background:var(--ink);color:var(--paper);padding:64px 72px;box-sizing:border-box}
+.kick{font:700 26px Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+.h1{font-weight:800;font-size:132px;line-height:.95;letter-spacing:-.05em}
+.photo{position:absolute;left:390px;top:430px;width:300px;height:400px;border-radius:28px;overflow:hidden;background:#ddd}
+.photo img{width:100%;height:100%;object-fit:cover}
+#top{position:absolute;left:72px;right:72px;top:150px;font-weight:800;font-size:84px;line-height:1;letter-spacing:-.045em}
+#top em{font-style:normal;color:var(--accent)}
+#me{position:absolute;left:600px;top:1010px;font:700 78px Caveat;color:var(--ink);transform-origin:left center}
+svg{position:absolute;inset:0;overflow:visible}
+</style></head><body>
+<div id="tick"></div>
+<div class="photo" id="p1"><img src="media/img01.jpg" style="object-position:50% 55%"></div>
+<div class="photo" id="p2"><img src="media/img02.jpg" style="object-position:80% 40%"></div>
+<div id="card"><img id="vid" src="media/frames/f001.jpg"></div>
+<div id="panel"><div class="kick" id="k1">{{EVENT}} · {{CITY}}</div><div class="h1" id="h1">{{THEME_LINE_1}}<br>{{THEME_LINE_2}}</div></div>
+<div id="top">Spent the day<br>at <em>{{EVENT_SHORT}}</em></div>
+<svg viewBox="0 0 1080 1350"><path id="arrow" d="M640 1000 C 690 940, 760 905, 812 862 M776 866 L813 860 L806 897" fill="none" stroke="#0E0E0E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div id="me">that's me</div>
+<!-- HOOK TEMPLATE (5 s) built with motion.js. Media: media/img01.jpg, media/img02.jpg (photo cards), media/frames/f001.jpg… (event clip at 30 fps:
+     ffmpeg -ss <start> -t 3 -i media/vid1.mp4 -vf "fps=30,scale=-2:1350" -q:v 3 media/frames/f%03d.jpg). Replace {{…}} text. -->
+<script src="../../framework/scripts/flubber.min.js"></script><script src="../../framework/scripts/motion.js"></script>
+<script>
+const W=1080,H=1350, $=id=>document.getElementById(id);
+const frames=[...Array(90)] /* number of extracted clip frames */.map((_,i)=>`media/frames/f${String(i+1).padStart(3,'0')}.jpg`);
+let rows=null; const arrowLen=$('arrow').getTotalLength();
+function render(t){
+  // ---- 1. ticker rows (0 – 2.3 s) ----
+  if(!rows) rows=M.ticker($('tick'),[
+    {items:['{{WORD_1}}','{{WORD_2}}','{{WORD_3}}'],sep:'→',dir:-1,speed:210,y:300,size:190,color:'#0E0E0E',sepColor:'#E0263E'},
+    {items:['{{EVENT}}'],sep:'●',dir:1,speed:170,y:530,size:190,color:'#E0263E',sepColor:'#0E0E0E'},
+    {items:['{{THEME}}'],sep:'→',dir:-1,speed:230,y:760,size:190,color:'#0E0E0E',sepColor:'#E0263E'}]);
+  rows.forEach((r,i)=>{ const e=M.kf(t,[{t:0+i*.09,x:(i%2?-1:1)*1400},{t:.75+i*.09,x:0,ease:'spring',bounce:.18}]); r.phase=e.x; });
+  M.tickerAt($('tick'),t); M.show($('tick'), t<2.3);
+
+  // ---- 2. card grows into the event clip (0.85 – 2.3 s), then shrinks to the stack (3.35 – 3.85 s) ----
+  const b=M.kf(t,[
+    {t:.85,l:540,t_:675,w:0,h:0,r:28},
+    {t:1.45,l:390,t_:485,w:300,h:380,r:28,ease:'spring',bounce:.3},
+    {t:1.62,l:390,t_:485,w:300,h:380,r:28,ease:'linear'},
+    {t:2.30,l:0,t_:0,w:1080,h:1350,r:0,ease:'expoInOut'},
+    {t:3.35,l:0,t_:0,w:1080,h:1350,r:0,ease:'linear'},
+    {t:3.85,l:390,t_:430,w:300,h:400,r:28,ease:'expoInOut'}]);
+  M.show($('card'), t>=.85); M.mask($('card'),W,H,{l:b.l,t:b.t_,w:b.w,h:b.h,r:b.r});
+  const par=M.kf(t,[{t:1.6,s:1.18},{t:2.3,s:1.0,ease:'expoInOut'}]); M.set($('vid'),{s:par.s});
+  M.video($('vid'),t,.9,frames,true);
+
+  // ---- 3. flat ink panel + masked headline (2.35 – 3.4 s) ----
+  const pn=M.kf(t,[{t:2.3,y:480},{t:2.85,y:0,ease:'spring',bounce:.15},{t:3.3,y:0,ease:'linear'},{t:3.55,y:520,ease:'expoIn'}]);
+  M.set($('panel'),{y:pn.y}); M.show($('panel'),t>=2.3&&t<3.6);
+  M.reveal($('k1'),t,2.5,3.25,{dur:.5}); M.reveal($('h1'),t,2.56,3.22,{stagger:.08,dur:.65});
+
+  // ---- 4. photo cards fan out from behind the clip card (3.8 – 5 s) with squash & stretch ----
+  [['p1',-1],['p2',1]].forEach(([id,d],i)=>{
+    const fr=[{t:3.82+i*.06,x:0,r:0,s:.9},{t:4.38+i*.06,x:d*300,r:d*7,s:1,ease:'spring',bounce:.32}];
+    const v=M.kf(t,fr), st=M.stretch(t,fr,'x',.004);
+    M.set($(id),Object.assign({x:v.x,r:v.r,s:v.s},st)); M.show($(id),t>=3.8);
+  });
+  M.reveal($('top'),t,4.05,99,{stagger:.08,dur:.6});
+
+  // ---- 5. one human touch: hand-drawn arrow + note (4.45 – 5 s) ----
+  const ap=M.expoOut((t-4.45)/.4); const a=$('arrow');
+  a.style.strokeDasharray=arrowLen; a.style.strokeDashoffset=arrowLen*(1-ap); a.style.opacity=t>=4.45?1:0;
+  const me=M.kf(t,[{t:4.6,s:0,r:-8},{t:4.9,s:1,r:-4,ease:'spring',bounce:.4}]); M.set($('me'),me); M.show($('me'),t>=4.6);
+}
+window.render=render;
+</script></body></html>

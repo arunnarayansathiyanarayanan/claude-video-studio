@@ -1,0 +1,14 @@
+# personal config and all project media/renders stay local
+creator.config.md
+projects/*
+!projects/.gitkeep
+!projects/README.md
+# render caches
+**/_cache/
+**/ov*/
+*.mp4
+*.wav
+*.mov
+__pycache__/
+.DS_Store
+Thumbs.db

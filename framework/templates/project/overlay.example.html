@@ -1,0 +1,106 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family:'Caveat'; src:url('../../framework/fonts/caveat-latin-700-normal.woff2') format('woff2'); font-weight:700; }
+  :root { --red:#ED1C3A; --mag:#FF2D87; --pur:#7B2FF7; --ink:#0B0614; }
+  html,body { margin:0; width:1080px; height:1350px; background:transparent; overflow:hidden; }
+  body { font-family:'Inter Display','Inter',sans-serif; color:#fff; -webkit-font-smoothing:antialiased; }
+  #stage { position:absolute; inset:0; }
+  canvas { position:absolute; inset:0; }
+  .item { position:absolute; display:none; }
+  .wm { display:inline-block; overflow:visible; vertical-align:top; }
+  .w { display:inline-block; transform-origin:50% 60%; will-change:transform; }
+  .mask .wm { overflow:hidden; padding-bottom:0.08em; }
+  .blk { font-weight:900; text-transform:uppercase; letter-spacing:-0.035em; line-height:0.9; }
+  .shadow { text-shadow:0 6px 30px rgba(0,0,0,.55); }
+  .hl { position:relative; display:inline-block; padding:0.02em 0.16em 0.06em; z-index:0; }
+  .hl::before { content:''; position:absolute; inset:0; z-index:-1; background:var(--bg,var(--red));
+                transform:skewX(-8deg) scaleX(var(--wipe,0)); transform-origin:left center; border-radius:6px; }
+  .pill { font:700 26px 'Inter',sans-serif; letter-spacing:.14em; text-transform:uppercase;
+          padding:12px 22px; border-radius:999px; background:rgba(11,6,20,.72); border:1.5px solid rgba(255,255,255,.22); }
+  .dot { display:inline-block; width:14px; height:14px; border-radius:50%; background:var(--red); margin-right:12px; vertical-align:1px; box-shadow:0 0 14px var(--red); }
+  .lt { left:60px; bottom:200px; }
+  .lt .bar { position:absolute; left:0; top:0; bottom:0; width:10px; background:linear-gradient(var(--red),var(--mag)); border-radius:4px; }
+  .lt .card { margin-left:10px; padding:20px 30px 22px; background:rgba(11,6,20,.78); border-radius:0 14px 14px 0; }
+  .lt .k { font:700 22px 'Inter',sans-serif; letter-spacing:.16em; text-transform:uppercase; color:#ff8fb6; margin-bottom:8px; }
+  .lt .v { font:900 52px 'Inter Display',sans-serif; letter-spacing:-0.02em; line-height:1.0; }
+  /* takeaway cards */
+  .ta { left:70px; right:70px; top:440px; }
+  .ta .kick { font:700 25px 'Inter',sans-serif; letter-spacing:.16em; text-transform:uppercase; color:#ff8fb6; margin-bottom:18px; }
+  .ta .head { font:900 70px 'Inter Display',sans-serif; letter-spacing:-0.03em; line-height:1.0; margin-bottom:26px; }
+  .ta .proof { position:relative; padding-left:26px; font:500 33px 'Inter',sans-serif; line-height:1.32; color:#EDE4F2; }
+  .ta .proof::before { content:''; position:absolute; left:0; top:6px; bottom:6px; width:6px; border-radius:3px; background:rgba(255,255,255,.35); }
+  .ta .src { font:500 21px 'Inter',sans-serif; color:#B6A6C2; margin-top:12px; letter-spacing:.02em; }
+  .ta .lens { display:block; margin-top:26px; padding:20px 26px 22px; }
+  .ta .lens::before { background:rgba(255,45,135,.20); transform:scaleX(var(--wipe,0)); border-left:8px solid var(--mag); border-radius:12px; }
+  .ta .lens .lk { font:800 21px 'Inter',sans-serif; letter-spacing:.18em; color:#ff8fb6; margin-bottom:8px; }
+  .ta .lens .lv { font:800 38px 'Inter Display',sans-serif; line-height:1.12; letter-spacing:-0.01em; }
+  #prog { position:absolute; left:0; top:0; height:8px; background:linear-gradient(90deg,var(--red),var(--mag),var(--pur)); }
+  #scrim { position:absolute; inset:0; background:radial-gradient(120% 80% at 50% 50%, rgba(11,6,20,.55), rgba(11,6,20,.85)); opacity:0; }
+  #tscrim { position:absolute; inset:0; opacity:0;
+            background:linear-gradient(180deg, rgba(11,6,20,.25) 0%, rgba(11,6,20,.80) 27%, rgba(11,6,20,.94) 38%, rgba(11,6,20,.97) 100%); }
+  #panel { position:absolute; left:0; right:0; bottom:0; height:600px;
+           background:linear-gradient(180deg, rgba(11,6,20,0) 0%, rgba(11,6,20,.86) 36%, rgba(11,6,20,.96) 100%); opacity:0; }
+</style></head>
+<body><div id="scrim"></div><div id="tscrim"></div><div id="panel"></div>
+<canvas id="fxb" width="1080" height="1350"></canvas><div id="stage"></div>
+<canvas id="wb" width="1080" height="1350"></canvas><canvas id="fxf" width="1080" height="1350"></canvas><div id="prog"></div>
+<script src="../../framework/scripts/kinetic.js"></script><script src="../../framework/scripts/fx.js"></script><script src="../../framework/scripts/wb.js"></script>
+<script src="fx_scene.js"></script><script src="board_scene.js"></script>
+<script>
+const DUR = 60, C = 'left:0;right:0;text-align:center;';
+// TEMPLATE — replace every {{PLACEHOLDER}}. Timings match storyboard.example.json (60 s blueprint).
+// NOTE: fx_scene.example.js uses LEGACY effects that framework/MOTION_STYLE.md bans — use it only for timing/structure reference.
+// ===== RECAP (0–14) =====
+K.add({t0:0.15,t1:2.45,anim:'slam',stagger:0.22,dur:0.32,cls:'blk shadow',style:C+'top:430px;font-size:150px;',
+  html:'{{THEME_LINE_1}}<br><span class="hl" data-d="0.4">{{THEME_LINE_2}}</span>'});
+K.add({t0:1.05,t1:2.45,anim:'rise',stagger:0.04,cls:'mask',style:C+'top:770px;font:700 34px Inter,sans-serif;letter-spacing:.06em;',
+  html:'{{EVENT_NAME}} · {{EDITION}} · {{CITY}}'});
+K.add({t0:2.55,t1:3.48,anim:'rise',stagger:0.07,cls:'mask blk shadow',style:C+'top:860px;font-size:92px;',html:'Spent the day at'});
+K.add({t0:3.55,t1:4.48,anim:'slam',stagger:0.0,dur:0.28,cls:'blk shadow',style:C+'top:580px;font-size:96px;',
+  html:'<span class="hl" style="--bg:var(--mag)">#{{EVENT_HASHTAG}}</span>'});
+K.add({t0:4.5,t1:13.95,anim:'fade',dur:0.3,cls:'pill',style:'left:56px;top:150px;',html:'<span class="dot"></span>{{EVENT_SHORT}}'});
+K.add({t0:4.6,t1:5.47,anim:'rise',stagger:0.05,cls:'lt mask',
+  html:'<div class="bar"></div><div class="card"><div class="k">The crew</div><div class="v">Showed up together</div></div>'});
+K.add({t0:6.55,t1:7.95,anim:'rise',stagger:0.08,cls:'mask blk shadow',style:C+'top:250px;font-size:76px;',html:'{{MONTAGE_LINE_1}}'});
+K.add({t0:7.0,t1:7.95,anim:'slam',dur:0.3,cls:'blk shadow',style:C+'top:930px;font-size:190px;',html:'<span class="hl">{{THEME_WORD}}.</span>'});
+K.add({t0:8.05,t1:9.45,anim:'rise',stagger:0.07,cls:'mask blk shadow',style:C+'top:230px;font-size:84px;',html:'{{MONTAGE_LINE_2}}<br>{{MONTAGE_LINE_2B}}'});
+K.add({t0:8.3,t1:9.45,anim:'fade',dur:0.25,cls:'pill',style:'left:50%;transform:translateX(-50%);top:1010px;',html:'{{STAGE_LABEL}}'});
+K.add({t0:9.55,t1:10.95,anim:'rise',stagger:0.07,cls:'mask blk shadow',style:C+'top:250px;font-size:96px;',html:'{{MONTAGE_LINE_3}}'});
+K.add({t0:9.7,t1:10.95,anim:'fade',dur:0.2,cls:'pill',style:'left:50%;transform:translateX(-50%);top:1010px;',html:'<span class="dot"></span>Live'});
+K.add({t0:11.05,t1:12.45,anim:'rise',stagger:0.07,cls:'mask blk shadow',style:C+'top:250px;font-size:80px;',html:'Opening keynote<br><span class="hl" data-d="0.25">{{KEYNOTE_SPEAKER}}</span>'});
+K.add({t0:12.55,t1:13.95,anim:'slam',stagger:0.3,dur:0.25,cls:'blk shadow',style:C+'top:430px;font-size:150px;line-height:1.0;',html:'Packed.<br>Every.<br>Session.'});
+// ===== TAKEAWAYS (38.5–53.3) =====
+K.add({t0:38.6,t1:39.45,anim:'rise',stagger:0.07,cls:'mask blk shadow',style:C+'top:520px;font-size:130px;',html:'3 takeaways'});
+K.add({t0:38.85,t1:39.45,anim:'rise',stagger:0.05,cls:'mask',style:C+'top:690px;font:700 40px Inter,sans-serif;color:#ff8fb6;letter-spacing:.12em;',html:'THROUGH A PRODUCT LENS'});
+// Takeaways: [t0, t1, kicker, headline (wrap one phrase in <span class="hl" data-d="0.35">…</span>), sourced proof, source line, so-what]
+const TK = [
+  [39.5, 44.1, '01 / 03 · {{THEME_1}}', '{{HEADLINE_1}}', '{{PROOF_1 — a quote or fact from a cited source}}', 'Source: {{SOURCE_1}}', '{{SO_WHAT_1}}'],
+  [44.1, 48.7, '02 / 03 · {{THEME_2}}', '{{HEADLINE_2}}', '{{PROOF_2}}', 'Source: {{SOURCE_2}}', '{{SO_WHAT_2}}'],
+  [48.7, 53.3, '03 / 03 · {{THEME_3}}', '{{HEADLINE_3}}', '{{PROOF_3}}', 'Source: {{SOURCE_3}}', '{{SO_WHAT_3}}'],
+];
+TK.forEach(([a,b,k,h,p,s,l]) => K.add({t0:a+0.05,t1:b-0.02,anim:'rise',stagger:0.018,dur:0.4,cls:'ta mask',
+  html:`<div class="kick" data-d="0">${k}</div><div class="head shadow" data-d="0.08">${h}</div>`+
+       `<div class="proof" data-d="0.75">${p}<div class="src">${s}</div></div>`+
+       `<div class="hl lens" data-d="1.5"><div class="lk">{{LENS_LABEL}}</div><div class="lv">${l}</div></div>`}));
+// ===== OUTRO (53.3–60) =====
+K.add({t0:53.75,t1:56.9,anim:'rise',stagger:0.08,cls:'mask blk shadow',style:'left:70px;right:70px;top:850px;font-size:84px;',html:'{{OUTRO_LINE_1}}<br><span class="hl" data-d="0.35">{{OUTRO_LINE_2}}</span>'});
+K.add({t0:54.6,t1:60.1,anim:'rise',stagger:0.05,cls:'mask',style:'left:70px;top:1075px;font:700 36px Inter,sans-serif;',html:'{{CREATOR_NAME}} · {{CREATOR_TITLE}}'});
+K.add({t0:55.1,t1:60.1,anim:'fade',dur:0.4,style:'left:70px;top:1135px;font:600 28px Inter,sans-serif;color:#ff8fb6;letter-spacing:.02em;',html:'{{HASHTAGS}}'});
+K.add({t0:57.0,t1:60.1,anim:'rise',stagger:0.06,cls:'mask blk shadow',style:'left:70px;right:70px;top:850px;font-size:66px;line-height:1.02;',html:'{{QUESTION}} <span class="hl" style="--bg:var(--mag)" data-d="0.45">Tell me below.</span>'});
+
+K.hooks.push(t => {
+  document.getElementById('prog').style.width = (t / DUR * 1080) + 'px';
+  const hookScrim = 0.45 * (1 - K.clamp((t - 2.3) / 0.2));
+  const introScrim = (t > 38.4 && t < 39.55) ? 0.7 * K.clamp((t - 38.45) / .2) : 0;
+  document.getElementById('scrim').style.opacity = Math.max(hookScrim, introScrim);
+  const ts = K.clamp((t - 39.45) / .3) * (1 - K.clamp((t - 53.2) / .1));
+  document.getElementById('tscrim').style.opacity = ts;
+  const pp = K.eOutCubic(K.clamp((t - 53.5) / .5));
+  document.getElementById('panel').style.opacity = pp;
+  document.getElementById('panel').style.transform = `translateY(${(1 - pp) * 220}px)`;
+  FX.render(t);
+  WB.render(document.getElementById('wb').getContext('2d'), t);
+});
+window.render = K.render;
+</script></body></html>

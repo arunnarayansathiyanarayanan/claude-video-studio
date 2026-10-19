@@ -1,0 +1,24 @@
+{
+  "w": 1080, "h": 1350, "fps": 30, "duration": 60,
+  "media_dir": "media",
+  "grade": {"contrast": 1.10, "saturation": 1.18, "vignette": 0.40},
+  "audio": {"file": "score.wav", "offset": 0, "gain": 1.0},
+  "shots": [
+    {"src": "vid4.mp4",  "start": 0.0,  "dur": 2.5, "in": 2.6, "zoom": [1.0, 1.08], "cut": "flash"},
+    {"src": "img23.jpg", "start": 2.5,  "dur": 1.0, "zoom": [1.0, 1.06], "focus": [0.5, 0.6], "cut": "punch"},
+    {"src": "img10.jpg", "start": 3.5,  "dur": 1.0, "zoom": [1.04, 1.0], "focus": [0.5, 0.5], "cut": "glitch"},
+    {"src": "img03.jpg", "start": 4.5,  "dur": 1.0, "zoom": [1.0, 1.05], "focus": [0.52, 0.55], "cut": "punch"},
+    {"src": "img11.jpg", "start": 5.5,  "dur": 1.0, "zoom": [1.0, 1.05], "focus": [0.6, 0.5], "cut": "punch"},
+    {"src": "img04.jpg", "start": 6.5,  "dur": 1.5, "zoom": [1.0, 1.08], "focus": [0.42, 0.55], "cut": "flash"},
+    {"src": "vid3.mp4",  "start": 8.0,  "dur": 1.5, "in": 0.0, "mode": "framed", "zoom": [1.0, 1.03], "cut": "glitch"},
+    {"src": "vid2.mp4",  "start": 9.5,  "dur": 1.5, "in": 6.0, "mode": "framed", "zoom": [1.0, 1.03], "cut": "punch"},
+    {"src": "img22.jpg", "start": 11.0, "dur": 1.5, "zoom": [1.0, 1.06], "focus": [0.55, 0.62], "cut": "punch"},
+    {"src": "img20.jpg", "start": 12.5, "dur": 1.5, "zoom": [1.08, 1.0], "focus": [0.5, 0.5], "cut": "glitch"},
+    {"src": "board",     "start": 14.0, "dur": 24.5, "mode": "solid", "color": [246, 246, 243], "cut": "none"},
+    {"src": "img13.jpg", "start": 38.5, "dur": 1.0, "zoom": [1.0, 1.06], "focus": [0.5, 0.5], "cut": "flash"},
+    {"src": "img08.jpg", "start": 39.5, "dur": 4.6, "zoom": [1.0, 1.10], "focus": [0.5, 0.30], "cut": "punch"},
+    {"src": "img22.jpg", "start": 44.1, "dur": 4.6, "zoom": [1.35, 1.48], "focus": [0.47, 0.62], "cut": "glitch"},
+    {"src": "img21.jpg", "start": 48.7, "dur": 4.6, "zoom": [1.0, 1.10], "focus": [0.5, 0.30], "cut": "punch"},
+    {"src": "img19.jpg", "start": 53.3, "dur": 6.7, "zoom": [1.0, 1.12], "focus": [0.5, 0.42], "cut": "flash"}
+  ]
+}

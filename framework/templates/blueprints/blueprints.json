@@ -1,0 +1,350 @@
+{
+ "_note": "Default segment timings (seconds) per use case x platform. Match the reference pace; adjust to answers.",
+ "event_recap": {
+  "instagram": {
+   "size": "1080x1920",
+   "dur": 20,
+   "segments": [
+    [
+     "hook",
+     0,
+     1.5
+    ],
+    [
+     "montage",
+     1.5,
+     15
+    ],
+    [
+     "takeaway",
+     15,
+     19
+    ],
+    [
+     "loop",
+     19,
+     20
+    ]
+   ]
+  },
+  "linkedin": {
+   "size": "1080x1350",
+   "dur": 60,
+   "segments": [
+    [
+     "hook",
+     0,
+     2.5
+    ],
+    [
+     "recap",
+     2.5,
+     14
+    ],
+    [
+     "explainer",
+     14,
+     38.5
+    ],
+    [
+     "takeaways",
+     38.5,
+     53.3
+    ],
+    [
+     "outro",
+     53.3,
+     60
+    ]
+   ]
+  }
+ },
+ "talking_head": {
+  "instagram": {
+   "size": "1080x1920",
+   "dur": 40,
+   "segments": [
+    [
+     "hook",
+     0,
+     2
+    ],
+    [
+     "points",
+     2,
+     37
+    ],
+    [
+     "cta_loop",
+     37,
+     40
+    ]
+   ],
+   "captions": "reel",
+   "punch_every_s": 3
+  },
+  "linkedin": {
+   "size": "1080x1080",
+   "dur": 75,
+   "segments": [
+    [
+     "statement_lowerthird",
+     0,
+     5
+    ],
+    [
+     "points",
+     5,
+     70
+    ],
+    [
+     "question_card",
+     70,
+     75
+    ]
+   ],
+   "captions": "line",
+   "punch_every_s": 6
+  }
+ },
+ "interview_clip": {
+  "instagram": {
+   "size": "1080x1920",
+   "dur": 45,
+   "segments": [
+    [
+     "quote_hook",
+     0,
+     3
+    ],
+    [
+     "context",
+     3,
+     10
+    ],
+    [
+     "answer",
+     10,
+     42
+    ],
+    [
+     "cta",
+     42,
+     45
+    ]
+   ]
+  },
+  "linkedin": {
+   "size": "1080x1350",
+   "dur": 90,
+   "segments": [
+    [
+     "quote_card",
+     0,
+     5
+    ],
+    [
+     "answer",
+     5,
+     80
+    ],
+    [
+     "takeaway",
+     80,
+     86
+    ],
+    [
+     "cta",
+     86,
+     90
+    ]
+   ]
+  }
+ },
+ "product_demo": {
+  "instagram": {
+   "size": "1080x1920",
+   "dur": 30,
+   "segments": [
+    [
+     "result_first",
+     0,
+     2
+    ],
+    [
+     "steps",
+     2,
+     26
+    ],
+    [
+     "result",
+     26,
+     28
+    ],
+    [
+     "cta",
+     28,
+     30
+    ]
+   ]
+  },
+  "linkedin": {
+   "size": "1920x1080",
+   "dur": 60,
+   "segments": [
+    [
+     "problem",
+     0,
+     3
+    ],
+    [
+     "steps",
+     3,
+     50
+    ],
+    [
+     "benefit",
+     50,
+     56
+    ],
+    [
+     "cta",
+     56,
+     60
+    ]
+   ]
+  }
+ },
+ "tutorial": {
+  "instagram": {
+   "size": "1080x1920",
+   "dur": 40,
+   "segments": [
+    [
+     "promise",
+     0,
+     3
+    ],
+    [
+     "steps",
+     3,
+     35
+    ],
+    [
+     "recap_save",
+     35,
+     40
+    ]
+   ]
+  },
+  "linkedin": {
+   "size": "1080x1350",
+   "dur": 120,
+   "segments": [
+    [
+     "promise",
+     0,
+     6
+    ],
+    [
+     "chapters",
+     6,
+     110
+    ],
+    [
+     "recap",
+     110,
+     120
+    ]
+   ]
+  }
+ },
+ "announcement": {
+  "instagram": {
+   "size": "1080x1920",
+   "dur": 15,
+   "segments": [
+    [
+     "tease",
+     0,
+     5
+    ],
+    [
+     "reveal",
+     5,
+     12
+    ],
+    [
+     "date_cta",
+     12,
+     15
+    ]
+   ]
+  },
+  "linkedin": {
+   "size": "1080x1350",
+   "dur": 45,
+   "segments": [
+    [
+     "headline",
+     0,
+     4
+    ],
+    [
+     "whats_new",
+     4,
+     25
+    ],
+    [
+     "why",
+     25,
+     38
+    ],
+    [
+     "how",
+     38,
+     45
+    ]
+   ]
+  }
+ },
+ "bts": {
+  "instagram": {
+   "size": "1080x1920",
+   "dur": 30,
+   "segments": [
+    [
+     "moments",
+     0,
+     27
+    ],
+    [
+     "end",
+     27,
+     30
+    ]
+   ]
+  },
+  "linkedin": {
+   "size": "1080x1350",
+   "dur": 60,
+   "segments": [
+    [
+     "intro",
+     0,
+     4
+    ],
+    [
+     "moments",
+     4,
+     50
+    ],
+    [
+     "lesson",
+     50,
+     60
+    ]
+   ]
+  }
+ }
+}
